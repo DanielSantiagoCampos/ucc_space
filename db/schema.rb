@@ -10,9 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_21_204357) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_26_164517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "publication_id", null: false
+    t.bigint "emisor_user_id", null: false
+    t.string "comment", limit: 100
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["emisor_user_id"], name: "index_comments_on_emisor_user_id"
+    t.index ["publication_id"], name: "index_comments_on_publication_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "publication_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publication_id"], name: "index_likes_on_publication_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "emisor_user_id", null: false
+    t.bigint "receptor_user_id", null: false
+    t.bigint "publication_id", null: false
+    t.integer "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["emisor_user_id"], name: "index_notifications_on_emisor_user_id"
+    t.index ["publication_id"], name: "index_notifications_on_publication_id"
+    t.index ["receptor_user_id"], name: "index_notifications_on_receptor_user_id"
+  end
+
+  create_table "publications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "description", limit: 300
+    t.string "file"
+    t.integer "status"
+    t.integer "tag_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_publications_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +68,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_204357) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "publications"
+  add_foreign_key "comments", "users", column: "emisor_user_id"
+  add_foreign_key "likes", "publications"
+  add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "publications"
+  add_foreign_key "notifications", "users", column: "emisor_user_id"
+  add_foreign_key "notifications", "users", column: "receptor_user_id"
+  add_foreign_key "publications", "users"
 end
