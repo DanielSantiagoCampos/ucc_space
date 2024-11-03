@@ -21,4 +21,13 @@ class Publication < ApplicationRecord
     active: 0,
     inactive: 1
   }
+
+  def tag_name
+    case tag_type
+    when 'work_oportunity' then 'Oportunidad de trabajo'
+    when 'funny' then 'Divertido'
+    when 'student_help' then 'Ayuda estudiantil'
+    else 'Desconocido'
+    end
+  end
 end

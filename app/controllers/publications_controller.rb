@@ -12,7 +12,7 @@ class PublicationsController < ApplicationController
       redirect_to publications_path, notice: 'Publicación creada con éxito.'
     else
       @publications = Publication.all
-      render :index
+      redirect_to root_path
     end
   end
 
@@ -24,10 +24,10 @@ class PublicationsController < ApplicationController
 
   def tag_enum_to_string(tag)
     case tag
-    when 0 then 'work_opportunity'
-    when 1 then 'funny'
-    when 2 then 'student_help'
-    else 'unknown'
+    when 'work_opportunity' then 'Oportunidad de trabajo'
+    when 'funny'            then 'Divertido'
+    when 'student_help'     then 'Ayuda estudiantil'
+    else 'Desconocido'
     end
   end
 end

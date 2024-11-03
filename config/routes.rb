@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root 'feed#index'
 
-  resources :publications, only: [:index, :create]
+  resources :publications do
+    resources :likes, only: [:create], shallow: true
+    resources :comments, only: [:create]
+  end
 
   resources :notifications, only: [:index]
   resources :users, only: [:index]

@@ -1,4 +1,5 @@
 <div class="feed-container">
+  <!-- Barra de navegación lateral -->
   <aside class="sidebar">
     <nav>
       <ul>
@@ -13,15 +14,26 @@
             <i class="fas fa-users"></i>
           </a>
         </li>
+        <li>
+          <%= link_to '<i class="fas fa-sign-out-alt"></i>'.html_safe, destroy_user_session_path, method: :delete, data: { confirm: '¿Estás seguro de que quieres cerrar sesión?' } %>
+        </li>
       </ul>
     </nav>
   </aside>
 
+  <!-- Sección principal de publicaciones -->
   <main class="publications">
+    <!-- Formulario para crear una nueva publicación -->
     <div class="publication-form">
       <%= form_with model: Publication.new, local: true do |form| %>
         <div class="form-group">
           <%= form.text_area :description, placeholder: "¿Qué estás pensando?", required: true %>
+        </div>
+        <div class="form-group">
+          <%= form.select :tag_type, options_for_select([['Oportunidad!', 'work_oportunity'], ['Diversion', 'funny'], ['Asesoria', 'student_help']]), prompt: "Selecciona una etiqueta" %>
+        </div>
+        <div class="form-group">
+          <%= form.file_field :file, class: "upload-file", accept: "image/*" %>
         </div>
         <div class="form-group">
           <%= form.submit "Publicar", class: "btn btn-primary" %>
@@ -29,18 +41,22 @@
       <% end %>
     </div>
 
+    <!-- Lista de publicaciones -->
     <div class="publication-list">
       <% @publications.active.each do |publication| %>
         <div class="publication">
+          <h3 class="username"><%= publication.user.username %></h3>
+          <div class="publication-tag-<%= publication.tag_type %>">
+            <span><%= publication.tag_name %></span>
+          </div>
+          <p class="description"><%= publication.description %></p>
           <div class="publication-image">
             <%= image_tag publication.file if publication.file.present? %>
           </div>
-          <div class="publication-description">
-            <p><%= publication.description %></p>
-            <div class="publication-info">
-              <span><i class="fas fa-thumbs-up"></i> <%= publication.likes.count %></span>
-              <span><i class="fas fa-comments"></i> <%= publication.comments.count %></span>
-            </div>
+          <div class="publication-info">
+            <%= button_to '<i class="fas fa-thumbs-up"></i>'.html_safe, publication_likes_path(publication), method: :post, data: { turbo: "true" }, class: "like-btn" %>
+            <span><i class="fas fa-thumbs-up"></i> <%= publication.likes.count %></span>
+            <span><i class="fas fa-comments"></i> <%= publication.comments.count %></span>
           </div>
           <div class="comments-section">
             <h4>Comentarios:</h4>
@@ -49,29 +65,47 @@
                 <strong><%= comment.emisor_user.username %>:</strong> <%= comment.comment %>
               </div>
             <% end %>
+            <%= form_with url: publication_comments_path(publication), local: true do |form| %>
+              <%= form.hidden_field :comment_id, value: publication.comments.last&.id %>
+              <%= form.text_area :comment, placeholder: "Responde al último comentario..." %>
+              <%= form.submit "Responder", class: "btn btn-secondary" %>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
   </main>
 
+  <!-- Barra lateral de hashtags -->
   <aside class="hashtags">
-    <h3>Hashtags Más Usados</h3>
+    <h3>En tendencia</h3>
     <ul>
-      <% @popular_hashtags.each do |hashtag| %>
-        <li><%= hashtag %></li>
+      <% @hashtags_count.each do |hashtag, count| %>
+        <div class="hashtags-active">
+          <li><%= hashtag %></li>
+          <span><%= count %></span>
+        </div>
+      <% end %>
+    </ul>
+
+    <h3>Usuarios activos</h3>
+    <ul>
+      <% @users.each do |user| %>
+        <div class="users-active">
+          <li><%= user.username %></li>
+          <span class="active-indicator"></span>
+        </div>
       <% end %>
     </ul>
   </aside>
 
-  <!-- Cuadro de Usuarios -->
+  <!-- Cuadro de Usuarios Activos para Seguir -->
   <div id="users-box" class="users-box" style="display: none;">
-    <h3>Usuarios a seguir</h3>
+    <h3>Usuarios</h3>
     <ul>
       <% @users.each do |user| %>
         <li>
-          <strong><%= user.username %></strong> (<%= user.email %>)
-          <%= button_to 'Seguir', '', method: :post, class: 'btn btn-follow' %>
+          <strong><%= user.username %></strong>
         </li>
       <% end %>
     </ul>
@@ -84,10 +118,15 @@
     <ul>
       <% @notifications.each do |notification| %>
         <li>
-          <% if notification.notification_type == 0 %>
-            <strong><%= notification.emisor_user.username %> le dio like a su publicación.</strong>
-          <% elsif notification.notification_type == 1 %>
-            <strong><%= notification.emisor_user.username %> comentó en su publicación: "<%= notification.publication.description %>".</strong>
+          <% if notification.notification_type == 'like' %>
+            <span>
+              <span class="username"><%= notification.emisor_user.username %></span> le dio like a su publicación.
+            </span>
+          <% elsif notification.notification_type == 'comment' %>
+            <span>
+              <span class="username"><%= notification.emisor_user.username %></span> comentó en su publicación: 
+              <span class="comment-description">"<%= notification.publication.description %>"</span>.
+            </span>
           <% end %>
         </li>
       <% end %>
