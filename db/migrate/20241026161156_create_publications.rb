@@ -4,7 +4,7 @@ class CreatePublications < ActiveRecord::Migration[7.1]
       t.references :user, null: false, foreign_key: true
       t.string :description, limit: 300
       t.string :file
-      t.integer :status
+      t.integer :status, default: 0
       t.integer :tag_type
 
       t.timestamps

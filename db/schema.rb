@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_164517) do
     t.bigint "emisor_user_id", null: false
     t.bigint "receptor_user_id", null: false
     t.bigint "publication_id", null: false
-    t.integer "type"
+    t.integer "notification_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["emisor_user_id"], name: "index_notifications_on_emisor_user_id"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_164517) do
     t.bigint "user_id", null: false
     t.string "description", limit: 300
     t.string "file"
-    t.integer "status"
+    t.integer "status", default: 0
     t.integer "tag_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_164517) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "username"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -66,6 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_164517) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "comments", "publications"

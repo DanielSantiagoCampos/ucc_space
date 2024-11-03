@@ -5,7 +5,7 @@ class CreateNotifications < ActiveRecord::Migration[7.1]
       t.references :receptor_user, null: false, foreign_key: { to_table: :users }
       t.references :publication, null: false, foreign_key: true
 
-      t.integer :type
+      t.integer :notification_type
 
       t.timestamps
     end

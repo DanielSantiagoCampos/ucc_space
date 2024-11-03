@@ -1,0 +1,130 @@
+<div class="feed-container">
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li><%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path %></li>
+        <li>
+          <a href="#" id="notification-toggle">
+            <i class="fas fa-bell"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="users-toggle">
+            <i class="fas fa-users"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="publications">
+    <div class="publication-form">
+      <%= form_with model: Publication.new, local: true do |form| %>
+        <div class="form-group">
+          <%= form.text_area :description, placeholder: "¿Qué estás pensando?", required: true %>
+        </div>
+        <div class="form-group">
+          <%= form.submit "Publicar", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="publication-list">
+      <% @publications.active.each do |publication| %>
+        <div class="publication">
+          <div class="publication-image">
+            <%= image_tag publication.file if publication.file.present? %>
+          </div>
+          <div class="publication-description">
+            <p><%= publication.description %></p>
+            <div class="publication-info">
+              <span><i class="fas fa-thumbs-up"></i> <%= publication.likes.count %></span>
+              <span><i class="fas fa-comments"></i> <%= publication.comments.count %></span>
+            </div>
+          </div>
+          <div class="comments-section">
+            <h4>Comentarios:</h4>
+            <% publication.comments.each do |comment| %>
+              <div class="comment">
+                <strong><%= comment.emisor_user.username %>:</strong> <%= comment.comment %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
+
+  <aside class="hashtags">
+    <h3>Hashtags Más Usados</h3>
+    <ul>
+      <% @popular_hashtags.each do |hashtag| %>
+        <li><%= hashtag %></li>
+      <% end %>
+    </ul>
+  </aside>
+
+  <!-- Cuadro de Usuarios -->
+  <div id="users-box" class="users-box" style="display: none;">
+    <h3>Usuarios a seguir</h3>
+    <ul>
+      <% @users.each do |user| %>
+        <li>
+          <strong><%= user.username %></strong> (<%= user.email %>)
+          <%= button_to 'Seguir', '', method: :post, class: 'btn btn-follow' %>
+        </li>
+      <% end %>
+    </ul>
+    <button id="users-close">Cerrar</button>
+  </div>
+
+  <!-- Cuadro de Notificaciones -->
+  <div id="notification-box" class="notification-box" style="display: none;">
+    <h3>Notificaciones</h3>
+    <ul>
+      <% @notifications.each do |notification| %>
+        <li>
+          <% if notification.notification_type == 0 %>
+            <strong><%= notification.emisor_user.username %> le dio like a su publicación.</strong>
+          <% elsif notification.notification_type == 1 %>
+            <strong><%= notification.emisor_user.username %> comentó en su publicación: "<%= notification.publication.description %>".</strong>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <button id="notification-close">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const notificationToggle = document.getElementById('notification-toggle');
+    const notificationBox = document.getElementById('notification-box');
+    const notificationClose = document.getElementById('notification-close');
+    const usersToggle = document.getElementById('users-toggle');
+    const usersBox = document.getElementById('users-box');
+    const usersClose = document.getElementById('users-close');
+
+    // Mostrar/Ocultar el cuadro de notificaciones
+    notificationToggle.addEventListener('click', function(event) {
+      event.preventDefault();
+      notificationBox.style.display = notificationBox.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Cerrar el cuadro de notificaciones
+    notificationClose.addEventListener('click', function() {
+      notificationBox.style.display = 'none';
+    });
+
+    // Mostrar/Ocultar el cuadro de usuarios
+    usersToggle.addEventListener('click', function(event) {
+      event.preventDefault();
+      usersBox.style.display = usersBox.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Cerrar el cuadro de usuarios
+    usersClose.addEventListener('click', function() {
+      usersBox.style.display = 'none';
+    });
+  });
+</script>
