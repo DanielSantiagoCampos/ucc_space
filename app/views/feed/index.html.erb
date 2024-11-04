@@ -4,7 +4,10 @@
     <nav>
       <ul>
         <li><%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path %></li>
-        <li>
+        <li class="notifications">
+          <div class="count">
+            <span><%= @notifications_count %></span>
+          </div>
           <a href="#" id="notification-toggle">
             <i class="fas fa-bell"></i>
           </a>
@@ -15,7 +18,7 @@
           </a>
         </li>
         <li>
-          <%= link_to '<i class="fas fa-sign-out-alt"></i>'.html_safe, destroy_user_session_path, method: :delete, data: { confirm: '¿Estás seguro de que quieres cerrar sesión?' }, class: 'btn btn-link' %>
+          <%= link_to '<i class="fas fa-sign-out-alt"></i>'.html_safe, destroy_user_session_path, method: :delete, class: 'btn btn-link' %>
         </li>
       </ul>
     </nav>
@@ -133,7 +136,7 @@
           <% elsif notification.notification_type == 'comment' %>
             <span>
               <span class="username"><%= notification.emisor_user.username %></span> comentó en su publicación: 
-              <span class="comment-description">"<%= notification.publication.description %>"</span>.
+              <span class="comment-description">"<%= notification.comment %>"</span>.
             </span>
           <% end %>
         </li>

@@ -4,7 +4,16 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @publication.comments.create(emisor_user: current_user, comment: params[:comment])
+
     if @comment.save
+      Notification.create!(
+        emisor_user_id: current_user.id,
+        receptor_user_id: @publication.user.id,
+        publication_id: @publication.id,
+        notification_type: :comment,
+        comment: @comment.comment
+      )
+
       flash[:notice] = "Has comentado a la publicación."
     else
       flash[:alert] = "No se pudo comentar la publicación. #{@comment.errors.full_messages.to_sentence}"

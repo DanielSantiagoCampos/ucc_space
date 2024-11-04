@@ -67,6 +67,19 @@ body {
             font-size: 1.5em;
           }
         }
+
+        .notifications {
+          position: relative;
+
+          .count {
+            position: absolute;
+            bottom: 10px;
+            left: 34px;
+            background-color: red;
+            border-radius: 50%;
+            font-size: 14px;
+          }
+        }
       }
     }
 
@@ -169,6 +182,7 @@ body {
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 12px;
+            white-space: nowrap;
           }
         }
 
@@ -181,10 +195,11 @@ body {
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 12px;
+            white-space: nowrap;
           }
         }
 
-        .publication-tag-help_student {
+        .publication-tag-student_help {
           span {
             margin-left: 10px;
             background-color: #ffc107;
@@ -193,6 +208,7 @@ body {
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 12px;
+            white-space: nowrap;
           }
         }
 

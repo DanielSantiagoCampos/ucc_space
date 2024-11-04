@@ -3,7 +3,8 @@ class FeedController < ApplicationController
     @publications = Publication.includes(:comments, :likes).order(created_at: :desc).all
     @popular_hashtags = Publication.pluck(:tag_type).uniq.map { |tag| tag_enum_to_string(tag) }
     @users = User.all
-    @notifications = Notification.includes(:emisor_user, :publication).all
+    @notifications = Notification.joins(:publication).where('receptor_user_id = ?', current_user.id).order(created_at: :desc)
+    @notifications_count = @notifications.count
 
     @hashtags_count = @publications
       .group_by(&:tag_type) # Agrupa por tag_type

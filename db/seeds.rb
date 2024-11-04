@@ -117,42 +117,36 @@ end
 
 # Crear comentarios para las publicaciones
 publications.each do |publication|
-  rand(1..10).times do
-    Comment.create!(
+  rand(1..20).times do
+    comment = Comment.create!(
       publication: publication,
       emisor_user: users.sample,
       comment: real_comments.sample
+    )
+
+    Notification.create!(
+      emisor_user: comment.emisor_user,
+      receptor_user: publication.user,
+      publication: publication,
+      notification_type: :comment,
+      comment: comment.comment
     )
   end
 end
 
 # Crear likes para las publicaciones
 publications.each do |publication|
-  rand(1..10).times do
-    Like.create!(
+  rand(1..20).times do
+    like = Like.create!(
       user: users.sample,
       publication: publication
     )
-  end
-end
 
-# Crear notificaciones para cada like y comentario
-publications.each do |publication|
-  publication.likes.each do |like|
     Notification.create!(
       emisor_user: like.user,
       receptor_user: publication.user,
       publication: publication,
-      notification_type: :like # Notificación de tipo like
-    )
-  end
-
-  publication.comments.each do |comment|
-    Notification.create!(
-      emisor_user: comment.emisor_user,
-      receptor_user: publication.user,
-      publication: publication,
-      notification_type: :comment # Notificación de tipo comentario
+      notification_type: :like
     )
   end
 end
