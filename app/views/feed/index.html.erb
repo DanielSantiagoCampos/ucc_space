@@ -64,6 +64,7 @@
               <%= image_tag publication.file_url %>
             <% end %>
           </div>
+          <span class="description"><%= publication.created_at.strftime("%d %b %Y %I:%M %p").downcase %></span>
 
           <div class="publication-info">
             <%= button_to '<i class="fas fa-thumbs-up"></i>'.html_safe, publication_likes_path(publication), method: :post, data: { turbo: "true" }, class: "like-btn" %>

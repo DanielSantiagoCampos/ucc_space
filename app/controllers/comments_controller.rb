@@ -6,13 +6,15 @@ class CommentsController < ApplicationController
     @comment = @publication.comments.create(emisor_user: current_user, comment: params[:comment])
 
     if @comment.save
-      Notification.create!(
+      notification = Notification.create!(
         emisor_user_id: current_user.id,
         receptor_user_id: @publication.user.id,
         publication_id: @publication.id,
         notification_type: :comment,
         comment: @comment.comment
       )
+
+      NotificationMailer.send_notification(notification).deliver_now
 
       flash[:notice] = "Has comentado a la publicación."
     else

@@ -1,0 +1,19 @@
+<p>Hola <%= @notification.receptor_user.username %>,</p>
+
+<p>Has recibido una nueva notificacion en tu publicación:</p>
+
+<p><%= @notification.publication.description %></p>
+
+<% if @notification.notification_type == 'like' %>
+  <p>
+    <p><%= @notification.emisor_user.username %></p> le dio like a su publicación.
+  </p>
+<% elsif @notification.notification_type == 'comment' %>
+  <p>
+    <p><%= @notification.emisor_user.username %></p> comentó en su publicación: 
+    <p>"<%= @notification.comment %>"</p>.
+  </p>
+<% end %>
+
+<p>Saludos,</p>
+<p>UCC Space</p>
