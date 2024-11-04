@@ -10,12 +10,15 @@ class LikesController < ApplicationController
       flash[:alert] = "Ya le has dado like a esta publicación."
     else
       @like = @publication.likes.create(user: current_user)
-      Notification.create!(
+      notification = Notification.create!(
         emisor_user_id: current_user.id,
         receptor_user_id: @publication.user.id,
         publication_id: @publication.id,
         notification_type: :like
       )
+
+      NotificationMailer.send_notification(notification).deliver_now
+
       flash[:notice] = "Has dado like a la publicación."
     end
 
