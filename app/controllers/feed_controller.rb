@@ -1,6 +1,6 @@
 class FeedController < ApplicationController
   def index
-    @publications = Publication.includes(:comments, :likes).all
+    @publications = Publication.includes(:comments, :likes).order(created_at: :desc).all
     @popular_hashtags = Publication.pluck(:tag_type).uniq.map { |tag| tag_enum_to_string(tag) }
     @users = User.all
     @notifications = Notification.includes(:emisor_user, :publication).all

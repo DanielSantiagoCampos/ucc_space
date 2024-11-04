@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>UccSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -9,9 +10,28 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_importmap_tags %>
+
   </head>
 
   <body>
+    <% flash.each do |key, message| %>
+      <div class="alert-container">
+        <div class="alert-box <%= flash_class(key) %>" id="flash-alert" role="alert">
+          <div class="message">
+            <%= message %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
+<script>
+  setTimeout(function() {
+    var alertBox = document.getElementById('flash-alert');
+    if (alertBox) {
+      alertBox.style.display = 'none';
+    }
+  }, 3000); // 3000 milisegundos = 3 segundos
+</script>

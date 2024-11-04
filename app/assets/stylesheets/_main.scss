@@ -7,6 +7,41 @@ $text-color: #132740;
   box-shadow: 0 6px 30px -6px rgba($text-color, 0.5);
 }
 
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+// ***************** ALERTS ************************** //
+.alert-container {
+  position: fixed;
+  top: 10%;
+  left: 30%;
+  background-color: #FFF;
+}
+
+.alert-box {
+  border-left: 10px solid rgba(171, 178, 182, 0.4);
+  border-radius: 10px;
+  border-left-color: $border-color;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+  text-align: center;
+  padding: 20px 40px;
+}
+
+.alert-danger {
+  border-left-color: #f8d7da;
+}
+
+.alert-info {
+  border-left-color: #DFF7DA;
+}
+
+.message {
+  color: $text-color;
+}
+ 
+// ***************** ALERTS ************************** //
+
 .feed-container {
   display: flex;
   flex-direction: row;
@@ -92,6 +127,15 @@ $text-color: #132740;
         border-radius: 5px;
         padding: 10px;
         margin-bottom: 20px;
+
+        .user {
+          display: flex;
+          align-items: center;
+
+          i {
+            margin-right: 5px;
+          }
+        }
 
         .username {
           font-size: 1.2em;

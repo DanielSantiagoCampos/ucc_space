@@ -27,13 +27,13 @@
     <div class="publication-form">
       <%= form_with model: Publication.new, local: true do |form| %>
         <div class="form-group">
-          <%= form.text_area :description, placeholder: "¿Qué estás pensando?", required: true %>
+          <%= form.text_area :description, placeholder: "Escribe tu nueva publicacion aqui", required: true %>
         </div>
         <div class="form-group">
           <%= form.select :tag_type, options_for_select([['Oportunidad!', 'work_opportunity'], ['Diversion', 'funny'], ['Asesoria', 'student_help']]), prompt: "Selecciona una etiqueta" %>
         </div>
         <div class="form-group">
-          <%= form.file_field :file, class: "upload-file", accept: "image/*" %>
+          <%= form.file_field :file_upload, class: "upload-file", accept: "image/*" %>
         </div>
         <div class="form-group">
           <%= form.submit "Publicar", class: "btn btn-primary" %>
@@ -45,14 +45,23 @@
     <div class="publication-list">
       <% @publications.active.each do |publication| %>
         <div class="publication">
-          <h3 class="username"><%= publication.user.username %></h3>
-          <div class="publication-tag-<%= publication.tag_type %>">
-            <span><%= publication.tag_name %></span>
+          <div class="user">
+            <i class="fas fa-user"></i>
+            <h3 class="username"><%= publication.user.username %></h3>
+
+            <div class="publication-tag-<%= publication.tag_type %>">
+              <span><%= publication.tag_name %></span>
+            </div>
           </div>
           <p class="description"><%= publication.description %></p>
+
+          <!-- Mostrar imagen según si es un archivo o URL -->
           <div class="publication-image">
-            <%= image_tag publication.file if publication.file.present? %>
+            <% if publication.file_url.present? %>
+              <%= image_tag publication.file_url %>
+            <% end %>
           </div>
+
           <div class="publication-info">
             <%= button_to '<i class="fas fa-thumbs-up"></i>'.html_safe, publication_likes_path(publication), method: :post, data: { turbo: "true" }, class: "like-btn" %>
             <span><i class="fas fa-thumbs-up"></i> <%= publication.likes.count %></span>
@@ -66,7 +75,6 @@
               </div>
             <% end %>
             <%= form_with url: publication_comments_path(publication), local: true do |form| %>
-              <%= form.hidden_field :comment_id, value: publication.comments.last&.id %>
               <%= form.text_area :comment, placeholder: "Responde al último comentario..." %>
               <%= form.submit "Responder", class: "btn btn-secondary" %>
             <% end %>

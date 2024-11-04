@@ -7,19 +7,24 @@ class PublicationsController < ApplicationController
   end
 
   def create
-    @publication = Publication.new(publication_params)
+    @publication = Publication.new(publication_params.merge!(user: current_user))
+
     if @publication.save
-      redirect_to publications_path, notice: 'Publicación creada con éxito.'
+      @publication.update(file: @publication.file_upload.filename.to_s)
     else
-      @publications = Publication.all
-      redirect_to root_path
+      flash.now[:alert] = @publication.errors.full_messages.to_sentence
+    end
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.turbo_stream
     end
   end
 
   private
 
   def publication_params
-    params.require(:publication).permit(:description, :tag_type, :file)
+    params.require(:publication).permit(:description, :tag_type, :file_upload)
   end
 
   def tag_enum_to_string(tag)
