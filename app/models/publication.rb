@@ -11,7 +11,7 @@ class Publication < ApplicationRecord
 
     # Enum para tag_type
   enum tag_type: {
-    work_oportunity: 0,
+    work_opportunity: 0,
     funny: 1,
     student_help: 3
   }
@@ -24,7 +24,7 @@ class Publication < ApplicationRecord
 
   def tag_name
     case tag_type
-    when 'work_oportunity' then 'Oportunidad de trabajo'
+    when 'work_opportunity' then 'Oportunidad de trabajo'
     when 'funny' then 'Divertido'
     when 'student_help' then 'Ayuda estudiantil'
     else 'Desconocido'
