@@ -15,9 +15,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: 'postgres'
+  username: 'fluna'
   database: 'ucc_space_database'
-  password: 'postgres'
+  password: '1123'
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   port: 5432
   host: localhost
