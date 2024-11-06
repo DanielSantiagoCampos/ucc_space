@@ -9,7 +9,138 @@ $text-color: #132740;
 
 body {
   font-family: 'Lato', sans-serif;
+  padding: 0;
+  margin: 0;
+  // background-image: asset-url('');
 }
+
+// Centrado de la vista
+.loginP {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: asset-url('image2.png'); /* Utiliza asset-url para referenciar la imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+// Contenedor principal para todos los elementos
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Título (Log in)
+h2 {
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+// Contenedor del formulario (como el cuadro de inicio de sesión de Instagram)
+form {
+  background-color: rgba(255, 255, 255, 0.85); // Fondo blanco semitransparente
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Campos de entrada
+.field {
+  width: 100%;
+  margin-bottom: 18px;
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    background-color: #fafafa;
+    color: #262626;
+    outline: none;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: #a8a8a8;
+    }
+  }
+}
+
+// Checkbox de "remember me"
+.field.remember_me {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #8e8e8e;
+  width: 100%;
+  margin-top: -10px;
+
+  input[type="checkbox"] {
+    margin-right: 8px;
+  }
+}
+
+// Botón de inicio de sesión
+.actions {
+  width: 100%;
+  margin-top: 16px;
+  
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0095f6;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #007cc4;
+    }
+
+    &:active {
+      background-color: #005f99;
+    }
+  }
+}
+
+// Estilos para los enlaces debajo del formulario
+.links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  a {
+    color: #007cc4;
+    text-decoration: none;
+    margin-top: 8px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
 
 // ***************** ALERTS ************************** //
 .alert-container {
