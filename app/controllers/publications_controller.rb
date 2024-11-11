@@ -23,7 +23,7 @@ class PublicationsController < ApplicationController
   def tag_enum_to_string(tag)
     case tag
     when 'work_opportunity' then 'Oportunidad de trabajo'
-    when 'funny'            then 'Divertido'
+    when 'funny'            then 'Diversión'
     when 'student_help'     then 'Ayuda estudiantil'
     else 'Desconocido'
     end

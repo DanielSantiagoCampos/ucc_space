@@ -393,6 +393,21 @@ form {
     height: calc(100% - 100px);
     margin-top: 30px;
 
+    .user-active {
+
+      i {
+        margin-right: 10px;
+        color: green;
+      }
+
+      display: flex;
+      align-items: baseline;
+    }
+
+    .user-active-description {
+      font-size: 10px;
+    }
+
     .users-active {
       display: flex;
       align-items: center;

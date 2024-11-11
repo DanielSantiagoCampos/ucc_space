@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
 
       NotificationMailer.send_notification(notification).deliver_now
 
-      flash[:notice] = "Has comentado a la publicación."
+      flash[:notice] = "Comentaste la publicación."
     else
       flash[:alert] = "No se pudo comentar la publicación. #{@comment.errors.full_messages.to_sentence}"
     end

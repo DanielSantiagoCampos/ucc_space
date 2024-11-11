@@ -36,7 +36,7 @@ class Publication < ApplicationRecord
   def tag_name
     case tag_type
     when 'work_opportunity' then 'Oportunidad de trabajo'
-    when 'funny' then 'Divertido'
+    when 'funny' then 'Diversión'
     when 'student_help' then 'Ayuda estudiantil'
     else 'Desconocido'
     end

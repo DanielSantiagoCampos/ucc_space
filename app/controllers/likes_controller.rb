@@ -19,7 +19,7 @@ class LikesController < ApplicationController
 
       NotificationMailer.send_notification(notification).deliver_now
 
-      flash[:notice] = "Has dado like a la publicación."
+      flash[:notice] = "Te gustó la publicación."
     end
 
     respond_to do |format|
