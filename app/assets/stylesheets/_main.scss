@@ -14,7 +14,7 @@ body {
   // background-image: asset-url('');
 }
 
-// Centrado de la vista
+// centrado de la vista
 .loginP {
   display: flex;
   justify-content: center;
@@ -43,7 +43,7 @@ h2 {
 }
 
 // Contenedor del formulario (como el cuadro de inicio de sesión de Instagram)
-form {
+.devise-form {
   background-color: rgba(255, 255, 255, 0.85); // Fondo blanco semitransparente
   padding: 40px 30px;
   width: 100%;
