@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/tu_usuario/tu_repositorio.git'
+                git branch: 'main', url: 'https://github.com/DanielSantiagoCampos/ucc_space.git'
             }
         }
 
