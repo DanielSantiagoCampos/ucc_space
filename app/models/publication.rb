@@ -1,35 +1,30 @@
 class Publication < ApplicationRecord
-  has_one_attached :file_upload  # Asociación de Active Storage
+  has_one_attached :file_upload
 
-  # Validaciones
   validates :description, presence: true
 
-  # Relaciones
   belongs_to :user
 
   has_many :comments
   has_many :likes
   has_many :notifications
 
-    # Enum para tag_type
   enum tag_type: {
     work_opportunity: 0,
     funny: 1,
     student_help: 3
   }
-  
-  # Enum para status
+
   enum status: {
     active: 0,
     inactive: 1
   }
 
-  # Método para determinar si `file` es una URL externa
   def file_url
     if file.present? && file.start_with?("http")
-      file  # Es una URL
+      file
     elsif file_upload.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(file_upload, only_path: true)  # Es un archivo cargado
+      Rails.application.routes.url_helpers.rails_blob_path(file_upload, only_path: true)
     end
   end
 
