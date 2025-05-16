@@ -1,8 +1,8 @@
 pipeline {
-    agent any
-
-    environment {
-        RAILS_ENV = 'test'
+    agent {
+        docker {
+            image 'ruby:3.2'
+        }
     }
 
     stages {
@@ -15,8 +15,7 @@ pipeline {
         stage('Check Ruby and Bundler') {
             steps {
                 sh 'ruby -v'
-                sh 'which ruby'
-                sh 'bundler -v || gem install bundler'
+                sh 'gem install bundler'
             }
         }
 
@@ -29,12 +28,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh 'bundle exec rspec'
-            }
-            post {
-                always {
-                    // Para que esto funcione, necesitas un formatter JUnit en RSpec
-                    junit 'spec/reports/**/*.xml'
-                }
             }
         }
     }
