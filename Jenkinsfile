@@ -5,10 +5,20 @@ pipeline {
         }
     }
 
+    triggers {
+        githubPush()
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/DanielSantiagoCampos/ucc_space.git'
+            }
+        }
+
+        stage('Hello') {
+            steps {
+                echo "Hello, Jenkins is listening to push!"
             }
         }
 
