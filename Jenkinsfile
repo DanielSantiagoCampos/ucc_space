@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        RAILS_ENV = 'test'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,9 +12,16 @@ pipeline {
             }
         }
 
-        stage('Setup Ruby') {
+        stage('Check Ruby and Bundler') {
             steps {
-                sh 'gem install bundler'
+                sh 'ruby -v'
+                sh 'which ruby'
+                sh 'bundler -v || gem install bundler'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
                 sh 'bundle install --jobs=4 --retry=3'
             }
         }
@@ -21,7 +32,8 @@ pipeline {
             }
             post {
                 always {
-                    junit 'spec/reports/**/*.xml'  // Si usas rspec con formatter JUnit
+                    // Para que esto funcione, necesitas un formatter JUnit en RSpec
+                    junit 'spec/reports/**/*.xml'
                 }
             }
         }
