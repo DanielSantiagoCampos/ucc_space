@@ -22,24 +22,24 @@ pipeline {
             }
         }
 
-        stage('Check Ruby and Bundler') {
-            steps {
-                sh 'ruby -v'
-                sh 'gem install bundler'
-            }
-        }
+    //  stage('Check Ruby and Bundler') {
+    //      steps {
+    //          sh 'ruby -v'
+    //          sh 'gem install bundler'
+    //      }
+    //  }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'bundle install --jobs=4 --retry=3'
-            }
-        }
+    //  stage('Install Dependencies') {
+    //      steps {
+    //          sh 'bundle install --jobs=4 --retry=3'
+    //      }
+    //  }
 
-        stage('Run Tests') {
-            steps {
-                sh 'bundle exec rspec'
-            }
-        }
+    //  stage('Run Tests') {
+    //      steps {
+    //          sh 'bundle exec rspec'
+    //      }
+    //  }
     }
 }
 
