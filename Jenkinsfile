@@ -14,6 +14,7 @@ pipeline {
 
     stage('Run Tests') {
       steps {
+        sh 'bundle install'
         sh 'bundle exec rspec'
       }
 
