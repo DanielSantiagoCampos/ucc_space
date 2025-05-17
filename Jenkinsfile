@@ -9,6 +9,13 @@ pipeline {
         }
 
         stage('Setup Ruby') {
+            agent {
+                docker {
+                    image 'ruby:3.2'  // imagen con Ruby y gem
+                    args '-v $HOME/.gem:/usr/local/bundle'  // opcional para persistir gems
+                }
+            }
+
             steps {
                 sh 'gem install bundler'
                 sh 'bundle install --jobs=4 --retry=3'
