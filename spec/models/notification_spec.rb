@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
@@ -9,8 +11,8 @@ RSpec.describe Notification, type: :model do
 
   describe 'enums' do
     it do
-      is_expected.to define_enum_for(:notification_type).
-        with_values(like: 0, comment: 1)
+      is_expected.to define_enum_for(:notification_type)
+        .with_values(like: 0, comment: 1)
     end
   end
 end

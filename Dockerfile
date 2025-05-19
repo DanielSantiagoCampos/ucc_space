@@ -1,62 +1,45 @@
-# syntax = docker/dockerfile:1
+FROM jenkins/jenkins:lts
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+USER root
 
-# Rails app lives here
-WORKDIR /rails
+# Instala dependencias necesarias para Ruby, rbenv y la gema pg
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    libreadline-dev \
+    zlib1g-dev \
+    git \
+    curl \
+    libffi-dev \
+    libyaml-dev \
+    libsqlite3-dev \
+    sqlite3 \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+RUN apt-get update && apt-get install -y docker.io
 
+USER jenkins
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
+ENV RBENV_ROOT=/var/jenkins_home/.rbenv
+ENV PATH="$RBENV_ROOT/bin:$RBENV_ROOT/shims:$PATH"
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
+# Instala rbenv y ruby-build
+RUN git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT && \
+    cd $RBENV_ROOT && src/configure && make -C src && \
+    mkdir -p $RBENV_ROOT/plugins && \
+    git clone https://github.com/rbenv/ruby-build.git $RBENV_ROOT/plugins/ruby-build
 
-# Install application gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+# (Opcional) Configura rbenv en el bashrc (solo útil si entras con bash)
+RUN echo 'export RBENV_ROOT="$HOME/.rbenv"' >> /var/jenkins_home/.bashrc && \
+    echo 'export PATH="$RBENV_ROOT/bin:$RBENV_ROOT/shims:$PATH"' >> /var/jenkins_home/.bashrc && \
+    echo 'eval "$(rbenv init -)"' >> /var/jenkins_home/.bashrc
 
-# Copy application code
-COPY . .
+# Instala Ruby
+RUN $RBENV_ROOT/bin/rbenv install 3.2.2 && \
+    $RBENV_ROOT/bin/rbenv global 3.2.2 && \
+    $RBENV_ROOT/bin/rbenv rehash
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Verifica la instalación
+RUN ruby -v
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER rails:rails
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD ["./bin/rails", "server"]

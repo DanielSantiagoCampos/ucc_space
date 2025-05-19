@@ -1,0 +1,14 @@
+git
+workflow-aggregator
+credentials
+github
+github-branch-source
+git-client
+pipeline-github-lib
+docker-plugin
+docker-workflow
+junit
+htmlpublisher
+blueocean
+pipeline-stage-view
+

@@ -1,0 +1,17 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+    - 'db/migrate/*'
+    - 'config/**/*'
+    - 'config.ru'
+    - 'bin/*'
+    - 'node_modules/**/*'
+    - 'app/**/*'
+    - 'Rakefile'
+    - 'Gemfile'
+
+Layout/LineLength:
+  Max: 120
+

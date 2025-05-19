@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rspec" tests="22" skipped="5" failures="0" errors="0" time="0.060731" timestamp="2025-05-19T10:12:35-05:00" hostname="MacBook-Pro-de-Daniel-2.local">
+<properties>
+<property name="seed" value="9847"/>
+</properties>
+<testcase classname="spec.models.comment_spec" name="Comment validaciones is expected to validate that :comment cannot be empty/falsy" file="./spec/models/comment_spec.rb" time="0.013261"></testcase>
+<testcase classname="spec.models.comment_spec" name="Comment asociaciones is expected to belong to publication required: true" file="./spec/models/comment_spec.rb" time="0.000449"></testcase>
+<testcase classname="spec.models.comment_spec" name="Comment asociaciones is expected to belong to emisor_user class_name =&gt; User required: true" file="./spec/models/comment_spec.rb" time="0.000337"></testcase>
+<testcase classname="spec.models.like_spec" name="Like asociaciones is expected to belong to user required: true" file="./spec/models/like_spec.rb" time="0.002654"></testcase>
+<testcase classname="spec.models.like_spec" name="Like asociaciones is expected to belong to publication required: true" file="./spec/models/like_spec.rb" time="0.000293"></testcase>
+<testcase classname="spec.models.notification_spec" name="Notification asociaciones is expected to belong to emisor_user class_name =&gt; User required: true" file="./spec/models/notification_spec.rb" time="0.004083"></testcase>
+<testcase classname="spec.models.notification_spec" name="Notification asociaciones is expected to belong to receptor_user class_name =&gt; User required: true" file="./spec/models/notification_spec.rb" time="0.000336"></testcase>
+<testcase classname="spec.models.notification_spec" name="Notification asociaciones is expected to belong to publication required: true" file="./spec/models/notification_spec.rb" time="0.000275"></testcase>
+<testcase classname="spec.models.notification_spec" name="Notification enums is expected to define :notification_type as an enum backed by an integer with values ‹{like: 0, comment: 1}›" file="./spec/models/notification_spec.rb" time="0.000422"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication validaciones is expected to validate that :description cannot be empty/falsy" file="./spec/models/publication_spec.rb" time="0.003423"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication asociaciones is expected to belong to user required: true" file="./spec/models/publication_spec.rb" time="0.000327"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication asociaciones is expected to have many comments" file="./spec/models/publication_spec.rb" time="0.000145"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication asociaciones is expected to have many likes" file="./spec/models/publication_spec.rb" time="0.000125"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication asociaciones is expected to have many notifications" file="./spec/models/publication_spec.rb" time="0.000120"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication asociaciones is expected to have a has_one_attached called file_upload" file="./spec/models/publication_spec.rb" time="0.003304"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication enums is expected to define :tag_type as an enum backed by an integer with values ‹{work_opportunity: 0, funny: 1, student_help: 3}›" file="./spec/models/publication_spec.rb" time="0.000491"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication enums is expected to define :status as an enum backed by an integer with values ‹{active: 0, inactive: 1}›" file="./spec/models/publication_spec.rb" time="0.000312"></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication#file_url cuando file es una URL devuelve el valor de file" file="./spec/models/publication_spec.rb" time="0.000008"><skipped/></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication#file_url cuando file_upload está adjunto devuelve la ruta del blob adjunto" file="./spec/models/publication_spec.rb" time="0.000002"><skipped/></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication#file_url cuando no hay file ni file_upload devuelve nil" file="./spec/models/publication_spec.rb" time="0.000001"><skipped/></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication#tag_name devuelve el nombre correcto para cada tag_type" file="./spec/models/publication_spec.rb" time="0.000002"><skipped/></testcase>
+<testcase classname="spec.models.publication_spec" name="Publication#tag_name devuelve &quot;Desconocido&quot; para un tag_type desconocido" file="./spec/models/publication_spec.rb" time="0.000001"><skipped/></testcase>
+</testsuite>

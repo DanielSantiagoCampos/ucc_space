@@ -1,0 +1,47 @@
+docker run -d \
+  --name jenkins \
+  --user jenkins \
+  --restart=unless-stopped \
+  --network jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v $HOME/jenkins_data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $(pwd)/plugins.txt:/usr/share/jenkins/ref/plugins.txt \
+  jenkins/jenkins:jdk17
+
+
+docker exec -it jenkins bash
+
+docker exec -it jenkins bash
+
+# Clonar rbenv y ruby-build en la carpeta de Jenkins
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+cd ~/.rbenv && src/configure && make -C src
+
+# Agregar rbenv al PATH y configurar automáticamente
+echo 'export RBENV_ROOT="$HOME/.rbenv"' >> ~/.bashrc
+echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
+source ~/.bashrc
+
+# Clonar ruby-build
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+
+## EN JENKINS
+# Plugins de docker, el del sdk 8.1+1
+
+docker build -t jenkins-ruby:latest .
+docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
+  -v $HOME/jenkins_data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  jenkins-ruby:latest
+
+# Ahora con el docker-compose, solo basta hacer
+
+docker compose up -d
+
+# y quedan los dos servicios
+
+

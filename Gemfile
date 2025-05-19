@@ -17,12 +17,8 @@ gem 'font-awesome-sass', '~> 6.5'
 
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'factory_girl_rails'
-  gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 5.0'
-  gem 'shoulda-matchers', '~> 5.0'
   gem 'capybara'
-  gem 'database_cleaner-active_record'
+  gem 'rubocop', require: false
 end
 
 group :development do
@@ -32,6 +28,10 @@ group :development do
 end
 
 group :test do
-  gem "capybara"
   gem "selenium-webdriver"
+  gem 'rspec-rails', '~> 5.0'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '~> 5.0'
+  gem 'rspec_junit_formatter'
+  gem 'database_cleaner-active_record'
 end
